@@ -1,10 +1,20 @@
 package entities;
 
+import dto.SupplierRequestDTO;
+import dto.SupplierResponseDTO;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Supplier {
+
+    @Id
+    private String cnpj;
     private String name;
     private String email;
     private String description;
-    private String cnpj;
+
 
     public Supplier() {
 
@@ -15,6 +25,26 @@ public class Supplier {
         this.email = email;
         this.description = description;
         this.cnpj = cnpj;
+    }
+
+    public Supplier(SupplierRequestDTO supplierRequestDTO) {
+        this.name = supplierRequestDTO.getName();
+        this.email = supplierRequestDTO.getEmail();
+        this.description = supplierRequestDTO.getDescription();
+        this.cnpj = supplierRequestDTO.getCnpj();
+    }
+
+    public SupplierResponseDTO toResponse() {
+        SupplierResponseDTO supplierResponseDTO = new SupplierResponseDTO(this.name, this.email, this.description, this.cnpj);
+        return supplierResponseDTO;
+    }
+
+    public Supplier requestToSupplier(SupplierRequestDTO supplierRequestDTO) {
+        Supplier supplier = new Supplier(supplierRequestDTO.getName(),
+                supplierRequestDTO.getEmail(),
+                supplierRequestDTO.getDescription(),
+                supplierRequestDTO.getCnpj());
+        return supplier;
     }
 
     public String getName() {
